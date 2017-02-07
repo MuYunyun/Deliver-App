@@ -18,31 +18,37 @@
       </div>
     </div>
     <div class="ball-container">
-      <div transition="drop" v-for="ball in balls" v-show="ball.show" class="ball">
-        <div class="inner inner-hook"></div>
-      </div>
+      <transition name="drop">
+        <div v-for="ball in balls" v-show="ball.show" class="ball">
+          <div class="inner inner-hook"></div>
+        </div>
+      </transition>
     </div>
-    <div class="shopcart-list" v-show="listShow" transition="fold">
-      <div class="list-header">
-        <h1 class="title">购物车</h1>
-        <span class="empty" @click="empty">清空</span>
+    <transition name="fold">
+      <div class="shopcart-list" v-show="listShow">
+        <div class="list-header">
+          <h1 class="title">购物车</h1>
+          <span class="empty" @click="empty">清空</span>
+        </div>
+        <div class="list-content" ref="list-content">
+          <ul>
+            <li class="food" v-for="food in selectFoods">
+              <span class="name">{{food.name}}</span>
+              <div class="price">
+                <span>￥{{food.price*food.count}}</span>
+              </div>
+              <div class="cartcontrol-wrapper">
+                <cartcontrol :food="food"></cartcontrol>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="list-content" v-el:list-content>
-        <ul>
-          <li class="food" v-for="food in selectFoods">
-            <span class="name">{{food.name}}</span>
-            <div class="price">
-              <span>￥{{food.price*food.count}}</span>
-            </div>
-            <div class="cartcontrol-wrapper">
-              <cartcontrol :food="food"></cartcontrol>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
+    </transition>
   </div>
-  <div class="list-mask" @click="hideList" v-show="listShow" transition="fade"></div>
+  <transition name="fade">
+    <div class="list-mask" @click="hideList" v-show="listShow"></div>
+  </transition>
 </template>
 
 <script type="text/ecmascript-6">
@@ -135,7 +141,7 @@
         if (show) {
           this.$nextTick(() => {
             if (!this.scroll) {
-              this.scroll = new BScroll(this.$els.listContent, {
+              this.scroll = new BScroll(this.$refs.listContent, {
                 click: true
               });
             } else {

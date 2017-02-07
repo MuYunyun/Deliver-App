@@ -1,15 +1,15 @@
 <template>
   <div class="goods">
-    <div class="menu-wrapper" v-el:menu-wrapper>
+    <div class="menu-wrapper" ref="menu-wrapper">
       <ul>
-        <li v-for="item in goods" class="menu-item" :class="{'current':currentIndex===$index}" @click="selectMenu($index,$event)">
+        <li v-for="(item,index) in goods" class="menu-item" :class="{'current':currentIndex===index}" @click="selectMenu(index,$event)">
           <span class="text">
             <span v-show="item.type>0" class="icon" :class="classMap[item.type]"></span>{{item.name}}
           </span>
         </li>
       </ul>
     </div>
-    <div class="foods-wrapper" v-el:foods-wrapper>
+    <div class="foods-wrapper" ref="foods-wrapper">
       <ul>
         <li v-for="item in goods" class="food-list food-list-hook">
           <h1 class="title">{{item.name}}</h1>
@@ -36,9 +36,9 @@
         </li>
       </ul>
     </div>
-    <shopcart v-ref:shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+    <shopcart ref="shopcart" :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
   </div>
-  <food :food="selectedFood" v-ref:food></food>
+  <food :food="selectedFood" ref="food"></food>
 </template>
 
 <script type="text/ecmascript-6">
@@ -105,7 +105,7 @@
         if (!event._constructed) {
           return;
         }
-        let foodList = this.$els.foodsWrapper.getElementsByClassName('food-list-hook');
+        let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook');
         let el = foodList[index];
         this.foodsScroll.scrollToElement(el, 300);
       },
@@ -123,11 +123,11 @@
         });
       },
       _initScroll() {
-        this.menuScroll = new BScroll(this.$els.menuWrapper, {
+        this.menuScroll = new BScroll(this.$refs.menuWrapper, {
           click: true
         });
 
-        this.foodsScroll = new BScroll(this.$els.foodsWrapper, {
+        this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
           click: true,
           probeType: 3
         });
@@ -137,7 +137,7 @@
         });
       },
       _calculateHeight() {
-        let foodList = this.$els.foodsWrapper.getElementsByClassName('food-list-hook');
+        let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook');
         let height = 0;
         this.listHeight.push(height);
         for (let i = 0; i < foodList.length; i++) {

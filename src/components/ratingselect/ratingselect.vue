@@ -62,14 +62,14 @@
           return;
         }
         this.selectType = type;
-        this.$dispatch('ratingtype.select', type); // 让子组件告诉父组件变化
+        this.$emit('ratingtype.select', type); // 让子组件告诉父组件变化
       },
       toggleContent(event) {
         if (!event._constructed) {
           return;
         }
         this.onlyContent = !this.onlyContent;
-        this.$dispatch('content.toggle', this.onlyContent);
+        this.$emit('content.toggle', this.onlyContent);
       }
     }
   };
