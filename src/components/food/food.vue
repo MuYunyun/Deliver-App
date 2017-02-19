@@ -33,7 +33,8 @@
         <split></split>
         <div class="rating">
           <h1 class="title">商品评价</h1>
-          <ratingselect :select-type="selectType" :only-content="onlyContent" :desc="desc"
+          <ratingselect @select="selectRating" @toggle="toggleContent" :select-type="selectType"
+                        :only-content="onlyContent" :desc="desc"
                         :ratings="food.ratings"></ratingselect>
           <div class="rating-wrapper">
             <ul v-show="food.ratings && food.ratings.length">
@@ -107,7 +108,7 @@
         if (!event._constructed) {
           return;
         }
-        this.$emit('cart.add', event.target);
+        this.$emit('add', event.target);
         Vue.set(this.food, 'count', 1);
       },
       needShow(type, text) {
@@ -119,17 +120,15 @@
         } else {
           return type === this.selectType;
         }
-      }
-    },
-    events: {
-      'ratingtype.select'(type) {
+      },
+      selectRating(type) {
         this.selectType = type;
         this.$nextTick(() => {
           this.scroll.refresh();
         });
       },
-      'content.toggle'(onlyContent) {
-        this.onlyContent = onlyContent;
+      toggleContent() {
+        this.onlyContent = !this.onlyContent;
         this.$nextTick(() => {
           this.scroll.refresh();
         });

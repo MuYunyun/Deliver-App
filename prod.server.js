@@ -1,6 +1,3 @@
-/**
- * 简单调试
- */
 var express = require('express');
 var config = require('./config/index');
 

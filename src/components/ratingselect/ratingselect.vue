@@ -56,20 +56,18 @@
         });
       }
     },
-    methods: { // 改变选中状态
+    methods: { // 改变选中状态,传到父组件中去
       select(type, event) {
         if (!event._constructed) {
           return;
         }
-        this.selectType = type;
-        this.$emit('ratingtype.select', type); // 让子组件告诉父组件变化
+        this.$emit('select', type); // 让子组件告诉父组件变化
       },
       toggleContent(event) {
         if (!event._constructed) {
           return;
         }
-        this.onlyContent = !this.onlyContent;
-        this.$emit('content.toggle', this.onlyContent);
+        this.$emit('toggle');
       }
     }
   };

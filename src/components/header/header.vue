@@ -220,11 +220,11 @@
       height: 100%
       overflow: auto
       backdrop-filter: blur
-      transition: all 0.5s
-      &.fade-transition
-        opacity: 1
-        background: rgba(7, 17, 27, 0.8)
-      &.fade-enter,&.fade-leave
+      opacity: 1
+      background: rgba(7, 17, 27, 0.8)
+      &.fade-enter-active, &.fade-leave-active
+        transition: all 0.5s
+      &.fade-enter,&.fade-leave-active
         opacity: 0
         background: rgba(7, 17, 27, 0)
       .detail-wrapper
